@@ -1,0 +1,5 @@
+public class Solution {
+    public int DistributeCandies(int[] candyType) {
+        return (Math.Min(candyType.Distinct().Count(),candyType.Length/2));
+    }
+}
