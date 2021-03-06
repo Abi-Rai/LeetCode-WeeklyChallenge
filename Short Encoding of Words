@@ -1,0 +1,15 @@
+public class Solution {
+    public int MinimumLengthEncoding(string[] words) {
+        HashSet<string> hs = new HashSet<string>(words);
+        foreach(var c in words){
+            for(int i=1;i<c.Length;i++){
+                hs.Remove(c.Substring(i));
+            }
+        }
+        int count = 0;
+        foreach(var c in hs){
+            count+=c.Length+1;
+        }
+        return count;
+    }
+}
