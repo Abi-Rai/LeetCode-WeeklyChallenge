@@ -1,0 +1,22 @@
+public class Solution {
+    public int RemovePalindromeSub(string s) {
+        if(!s.Contains('a')||!s.Contains('b')){
+            return 0;
+        }
+        /* problem only consists of 2 characters 'a' & 'b'. So if string is already a palindrome it would take 1 step to empty the string else if it isn't a palindrome removing
+        just one character from the string would make it a palindrome therefore, 2 steps. */
+        if(IsPalindrome(s)){
+            return 1;
+        }else{
+            return 2;
+        }
+    }
+    public bool IsPalindrome(string s){
+        int l = 0;
+        int r = s.Length-1;
+        while(l<=r){
+            if(s[l++]!=s[r--]) return false;
+        }
+        return true;
+    }
+}
