@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+ 
+ /* Used Recursion method */
+public class Solution {
+    public TreeNode AddOneRow(TreeNode root, int v, int d) {
+        if(d==1){
+            TreeNode n = new TreeNode(v);
+            n.left = root;
+            return n;
+        }
+        Insert(v,root,1,d);
+        return root;
+        }
+    public void Insert(int val, TreeNode node, int depth, int n){
+            if(node==null){
+            return;
+            }
+            if(depth==n-1){
+                TreeNode t = node.left;
+                node.left = new TreeNode(val);
+                node.left.left = t;
+                t= node.right;
+                node.right = new TreeNode(val);
+                node.right.right = t;
+            }else{
+                Insert(val,node.left,depth+1,n);
+                Insert(val,node.right,depth+1,n);
+            }
+        }
+
+}
