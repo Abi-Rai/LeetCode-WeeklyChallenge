@@ -1,0 +1,32 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode SwapNodes(ListNode head, int k) {
+        List<int> ls = new List<int>();
+        ListNode dummy = head;
+        while(dummy!=null){
+            ls.Add(dummy.val);
+            dummy = dummy.next;
+        }
+        int temp = ls[k-1];
+        ls[k-1] = ls[ls.Count()-k];
+        ls[ls.Count()-k] = temp;
+        var res = head;
+        foreach(var i in ls){
+            if(head.val!=i) {
+            head.val = i;
+            }
+            head = head.next;
+        }
+        return res;
+    }
+}
