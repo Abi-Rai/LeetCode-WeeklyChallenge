@@ -1,0 +1,31 @@
+public class Solution {
+    private readonly double r, x, y;
+    private readonly Random rand;
+    public Solution(double radius, double x_center, double y_center) {
+        r = radius;
+        x = x_center;
+        y = y_center;
+        rand = new Random();
+    }
+    
+    public double[] RandPoint() {
+        double a=0,b=0;
+        do
+        {
+            a = GetRandom(x,r);
+            b = GetRandom(y,r);
+        }while(!IsValidCorrdinate(a,b));
+        
+        return new double[] {a,b};
+    }
+    
+    double GetRandom(double a, double rad) => a-rad + rand.NextDouble() * 2*rad;
+    
+    bool IsValidCorrdinate(double a,double b) => ((a-x)*(a-x) + (b-y)*(b-y)) <= r*r;
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(radius, x_center, y_center);
+ * double[] param_1 = obj.RandPoint();
+ */
