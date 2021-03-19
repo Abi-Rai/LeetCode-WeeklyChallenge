@@ -1,0 +1,21 @@
+public class Solution {
+    public bool CanVisitAllRooms(IList<IList<int>> rooms) {
+        bool[] seen = new bool[rooms.Count()];
+        seen[0]=true;
+        Stack<int> st = new Stack<int>();
+        st.Push(0);
+        while(st.Count()!=0){
+            int node = st.Pop();
+            foreach(int key in rooms[node]){
+                if(!seen[key]){
+                    seen[key]=true;
+                    st.Push(key);
+                }
+            }
+        }
+        foreach(bool visited in seen){
+            if(!visited) return false;
+        }
+        return true;
+    }
+}
