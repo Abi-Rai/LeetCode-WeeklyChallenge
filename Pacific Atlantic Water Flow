@@ -1,0 +1,47 @@
+public class Solution {
+    public  IList<IList<int>> PacificAtlantic (int[][] matrix){
+        IList<IList<int>> Coordinates = new List<IList<int>>();
+        if (matrix.Length == 0) return Coordinates;
+        int row = matrix.Length;
+        int column = matrix[0].Length;
+
+        bool[,] pacific = new bool[row,column];
+        bool[,] atlantic = new bool[row,column];
+
+        for (int i = 0; i < column; i++){
+            Dfs(matrix,0,i,pacific,Int32.MinValue); 
+            Dfs(matrix,row-1,i,atlantic,Int32.MinValue);
+        }
+
+        for (int i = 0; i < row; i++){
+            Dfs(matrix, i, 0, pacific, Int32.MinValue);
+            Dfs(matrix, i, column-1, atlantic, Int32.MinValue);
+        }
+
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < column; j++){
+                if (pacific[i, j]==true && atlantic[i, j]==true ){
+                    IList<int> Coordinate = new List<int>();
+                    Coordinate.Add(i);
+                    Coordinate.Add(j);
+                    Coordinates.Add(Coordinate);
+                }
+            }
+        }
+        return Coordinates;
+    }
+
+    private void Dfs (int[][] matrix, int row, int column, bool[,] ocean, int prev){
+        if (IsValidParam(matrix, row, column, ocean, prev)){
+            ocean[row, column] = true;
+            Dfs(matrix,row-1,column,ocean,matrix[row][column]);
+            Dfs(matrix,row+1,column,ocean,matrix[row][column]);
+            Dfs(matrix,row,column+1,ocean,matrix[row][column]);
+            Dfs(matrix,row,column-1,ocean,matrix[row][column]);
+        }
+    }
+
+    private bool IsValidParam (int[][] matrix, int r, int c, bool[,] ocean, int prev){
+        return (r >= 0 && c >= 0 && r < matrix.Length && c < matrix[0].Length && matrix[r][c] >= prev && ocean[r, c] != true);
+    }
+}
