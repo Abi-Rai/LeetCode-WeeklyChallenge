@@ -1,0 +1,42 @@
+public class Solution
+{
+    private List<(int digit, string word, char key)> digitDatas =
+        new List<(int digit, string word, char key)>{
+            (0, "zero", 'z'),
+            (2, "two", 'w'),
+            (4, "four", 'u'),
+            (6, "six", 'x'),
+            (7, "seven", 's'),
+            (1, "one", 'o'),
+            (3, "three", 'r'),
+            (5, "five", 'f'),
+            (8, "eight", 'h'),
+            (9, "nine", 'i')
+        };
+        
+    public string OriginalDigits(string s)
+    {
+        int[] charCounter = new int[26];
+        foreach(char c in s) {
+            charCounter[c-'a']++;
+        }
+        
+        int[] digitCounter = new int[10];
+        foreach((int digit, string word, char key) data in digitDatas){
+            int count = charCounter[data.key-'a'];
+            digitCounter[data.digit] = count;
+            foreach(char c in data.word)
+                charCounter[c-'a'] -= count;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < 10; i++){
+            int count = digitCounter[i];
+            string c = i.ToString();
+            for(int j = 0; j < count; j++)
+                sb.Append(c);
+        }
+        
+        return sb.ToString();
+    }
+}
