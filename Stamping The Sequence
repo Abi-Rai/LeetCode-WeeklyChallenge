@@ -1,0 +1,36 @@
+public class Solution {
+    public int[] MovesToStamp(string stamp, string target) {
+        int N=target.Length;
+        int M=stamp.Length;
+        char[] tarr = target.ToCharArray();
+        List<int> lst=new List<int>();
+        bool stamped=false;
+        do{
+            stamped=false;
+            for(int i=0; i<=N-M; i++){
+                bool matching=true;
+                int alreadyMatched=0;
+                
+                for(int j=0; j<M; j++){
+                    if(tarr[i+j]=='*'){
+                        alreadyMatched++;
+                    }else  if(tarr[i+j]!=stamp[j]){
+                        matching=false;
+                        break;
+                    }
+                }
+                if(matching && alreadyMatched<M){
+                    stamped=true;
+                    lst.Add(i);
+                    for(int j=0; j<M; j++)
+                        tarr[i+j]='*';
+                }
+            }
+        }while(stamped);
+        if(tarr.Any(v=> v!='*'))
+            return new int[0];
+        int[] arr=lst.ToArray();
+        Array.Reverse(arr);
+        return arr;
+    }
+}
