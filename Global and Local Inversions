@@ -1,0 +1,14 @@
+public class Solution {
+     public bool IsIdealPermutation(int[] A) { 
+        for(int i=0;i<A.Length;i++){
+            int n = A[i] - i;
+            if(n >= 2){
+                return false;
+            }
+            else if(n == 1 && A[i] < A[i+1] ){
+                return false;
+            }
+        }
+        return true;
+    }
+}
