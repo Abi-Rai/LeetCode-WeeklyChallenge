@@ -1,0 +1,30 @@
+public class Solution 
+{
+    int[,] dp;
+    int[] dx = new int[] {0, 1, 0, -1};
+    int[] dy = new int[] {1, 0, -1, 0};
+    int row, col;
+    public int LongestIncreasingPath(int[][] matrix) 
+    {
+        row = matrix.Length;
+        if(row == 0) return 0;
+        col = matrix[0].Length;
+        dp = new int[row, col];
+        int result = 0;
+        for (int i = 0; i < row; i++) 
+            for (int j = 0; j < col; j++) 
+                result = Math.Max(result, DFS(matrix, i, j, long.MinValue));
+        return result;
+    }
+
+    private int DFS(int[][] matrix, int x, int y, long previous) 
+    {
+        if (!(x >= 0 && x < row && y >= 0 && y < col) || matrix[x][y] <= previous) return 0;
+        if (dp[x, y] != 0) return dp[x, y];
+        int current = matrix[x][y], result = 0;
+        for (int i = 0; i < dx.Length; i++) 
+            result = Math.Max(result, DFS(matrix, x + dx[i], y + dy[i], current) + 1);
+        dp[x, y] = result;
+        return result;
+    }
+}
