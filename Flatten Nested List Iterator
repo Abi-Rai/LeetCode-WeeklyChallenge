@@ -1,0 +1,59 @@
+/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * interface NestedInteger {
+ *
+ *     // @return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     bool IsInteger();
+ *
+ *     // @return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // Return null if this NestedInteger holds a nested list
+ *     int GetInteger();
+ *
+ *     // @return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // Return null if this NestedInteger holds a single integer
+ *     IList<NestedInteger> GetList();
+ * }
+ */
+/**
+ * Your NestedIterator will be called like this:
+ * NestedIterator i = new NestedIterator(nestedList);
+ * while (i.HasNext()) v[f()] = i.Next();
+ */
+ 
+public class NestedIterator {
+    
+    Stack<NestedInteger> _st;
+    HashSet<NestedInteger> _visited;
+    
+    public NestedIterator(IList<NestedInteger> nestedList) {
+        _st = new Stack<NestedInteger>();
+        _visited = new HashSet<NestedInteger>();
+        for(int i= nestedList.Count-1;i>=0;--i){
+            if(_visited.Add(nestedList[i])){
+                _st.Push(nestedList[i]);
+            }
+        }
+    }
+
+    public bool HasNext() {
+        MoveStack();
+        return _st.Count>0;
+    }
+
+    public int Next() {
+        MoveStack();
+        return _st.Pop().GetInteger();
+    }
+    
+    private void MoveStack(){
+        while(_st.Count!=0 && !_st.Peek().IsInteger()){
+            var pop = _st.Pop();
+            for(int i=pop.GetList().Count-1;i>=0;--i){
+                if(_visited.Add(pop.GetList()[i])){
+                    _st.Push(pop.GetList()[i]);
+                }
+            }
+        }
+    }
+}
