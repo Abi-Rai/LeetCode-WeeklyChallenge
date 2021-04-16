@@ -1,0 +1,32 @@
+public class Solution {
+    public string RemoveDuplicates(string s, int k) {
+        int start = 0;
+        int end = 1;
+        while(end < s.Length){
+            if(s[start] != s[end]){
+                start = end;
+                end++;
+            }
+            else{
+                if(end - start + 1 == k){
+                  s = s.Remove(start, k);
+                    if(start == 0){
+                        end = 1;
+                    }
+                    else{
+                        start--;
+                        end = start;
+                        while(start >= 0 && s[start] == s[end]){
+                            start--;
+                        }
+                        start++;
+                    }
+                }
+                else{
+                    end++;
+                }
+            }
+        }
+        return s;
+    }
+}
