@@ -1,0 +1,31 @@
+public class Solution {
+    public int NumSubmatrixSumTarget(int[][] matrix, int target){
+        if(matrix==null || matrix.Length ==0){
+            return 0;
+        }
+        int w = matrix[0].Length;
+        int h = matrix.Length;
+        int[,] dp = new int[h,w+1];
+        for (int i = 0; i < h; i++){
+            for (int j = 0; j < w; j++){
+                dp[i,j+1] = dp[i,j] + matrix[i][j];
+            }
+        }
+        Dictionary<int, int> starts = new Dictionary<int,int>();
+        int res = 0;
+        for (int i = 1; i <= w; i++){
+            for (int j = i; j <= w; j++){
+                starts.Clear();
+                starts[0] = 1;
+                int end = 0;
+                for (int k = 0; k < h; k++){
+                    end += dp[k,j] - dp[k,i - 1];
+                    int start = end - target; 
+                    res += starts.ContainsKey(start) ? starts[start]: 0;
+                    starts[end] = (starts.ContainsKey(end) ? starts[end]+1 : 1);                 
+                }
+            }
+        }            
+        return res;
+    }
+}
