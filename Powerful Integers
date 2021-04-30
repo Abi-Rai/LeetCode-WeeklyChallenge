@@ -1,0 +1,18 @@
+public class Solution {
+    public IList<int> PowerfulIntegers(int x, int y, int bound) {
+        int a = x==1 ? bound: (int)(Math.Log(bound)/Math.Log(x));
+        int b = y==1 ? bound: (int)(Math.Log(bound)/Math.Log(y));
+        HashSet<int> powI = new HashSet<int>();
+        for(int i=0; i<=a;++i){
+            for(int j=0; j<=b;++j){
+                int val = (int)Math.Pow(x,i) + (int)Math.Pow(y,j);
+                if(val<=bound){
+                    powI.Add(val);
+                }
+                if(y==1) break;
+            }
+            if(x==1) break;
+        }
+        return powI.ToList();
+    }
+}
