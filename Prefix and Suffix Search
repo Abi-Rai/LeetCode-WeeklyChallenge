@@ -1,0 +1,64 @@
+public class WordFilter {
+    private class Trie {
+        Trie[] children;
+        List<int> index;
+        public Trie() {
+            children = new Trie[256];
+            index = new List<int>();
+        }
+        public void Add(char[] s, int n) {
+            Add(s, n, 0);
+        }
+        private void Add(char[] s, int n, int i) {
+            index.Add(n);
+            if(s.Length == i) {
+                return;
+            }
+            if(children[s[i]] == null) children[s[i]] = new Trie();
+            children[s[i]].Add(s, n, i + 1);
+        }
+        
+        public List<int> Search(char[] s) {
+            return Search(s, 0);
+        }
+                
+        private List<int> Search(char[] s, int i) {
+            if(s.Length == i) {
+                return index;
+            }
+            if(children[s[i]] == null) return new List<int>();
+            return children[s[i]].Search(s, i + 1);
+        }
+    }
+    
+    private Trie prefix;
+    private Trie suffix;
+
+    public WordFilter(string[] words) {
+        prefix = new Trie();
+        suffix = new Trie();
+        for(var i = 0; i < words.Length; i++) {
+            prefix.Add(words[i].ToCharArray(), i);
+            suffix.Add(words[i].ToCharArray().Reverse().ToArray(), i);
+        }
+    }
+    
+    public int F(string prefix, string suffix) {
+        var pfound = this.prefix.Search(prefix.ToCharArray());
+        var sfound = this.suffix.Search(suffix.ToCharArray().Reverse().ToArray());
+        
+        for(int p = pfound.Count - 1, s = sfound.Count - 1; p >= 0 && s >= 0;) {
+            if(pfound[p] == sfound[s]) return pfound[p];
+            if(pfound[p] > sfound[s]) p--;
+            else s--;
+        }
+        
+        return -1;
+    }
+}
+
+/**
+ * Your WordFilter object will be instantiated and called as such:
+ * WordFilter obj = new WordFilter(words);
+ * int param_1 = obj.F(prefix,suffix);
+ */
