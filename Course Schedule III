@@ -1,0 +1,53 @@
+public class Solution {
+    public int ScheduleCourse(int[][] courses) {
+        Array.Sort(courses, new Sorter2());
+        List<int> pq = new List<int>();
+        int numCourses = 0;
+        int daysUsed = 0;
+        for(int i=0;i<courses.Length;i++){
+            if(daysUsed + courses[i][0] <= courses[i][1]){
+                daysUsed += courses[i][0];
+                numCourses++;                
+            }else if (pq.Count > 0 && pq[0] > courses[i][0]) {
+                int temp =  daysUsed + courses[i][0] - pq[0];
+                if (temp <= courses[i][1]){
+                    daysUsed = temp;
+                    pq.RemoveAt(0);
+                }
+            }else {
+                continue;
+            }
+            if(pq.Count == 0){
+                pq.Add(courses[i][0]);
+                continue;
+            }
+            for(int j=0;j<pq.Count;j++){
+                if (courses[i][0] > pq[j]){
+                    pq.Insert(j, courses[i][0]);
+                    break;
+                }
+            }
+        }
+        return numCourses;
+    }
+    
+    public class Sorter2 : IComparer{
+        int IComparer.Compare(Object x, Object y){
+            int[] xx = (int[]) x;
+            int[] yy = (int[]) y;
+            if(xx[1] > yy[1]){
+                return 1;
+            }
+            if(xx[1] < yy[1]){
+                return -1;
+            }
+            if(xx[0] > yy[0]){
+                return 1;
+            }
+            if(xx[0] < yy[0]){
+                return -1;
+            }
+            return 0;
+        }
+    }
+}
