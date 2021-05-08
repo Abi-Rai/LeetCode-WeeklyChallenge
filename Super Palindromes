@@ -1,0 +1,33 @@
+public class Solution {
+    private readonly int MAGIC = 100000;
+    public int SuperpalindromesInRange(string left, string right) {
+        long L = long.Parse(left);
+        long R = long.Parse(right);
+        return LoopNums(2,L,R) + LoopNums(1,L,R);
+    }
+    public int LoopNums(int EO, long L, long R){
+        int cnt =0;
+        for(int k=1; k<MAGIC;++k){
+            StringBuilder sb = new StringBuilder(k.ToString());
+            for(int i=sb.Length-EO;i>=0;--i){
+                sb.Append(sb[i]);
+            }
+            long v = long.Parse(sb.ToString());
+            v*=v;
+            if(v>R) break;
+            if(v>=L&& IsPalindrome(v)) cnt++;
+        }
+        return cnt;
+    }
+    public bool IsPalindrome(long x){
+        return x == Reverse(x);
+    }
+    public long Reverse(long x){
+        long ans =0;
+        while(x>0){
+            ans = 10*ans+x%10;
+            x/=10;
+        }
+        return ans;
+    }
+}
