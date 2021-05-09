@@ -1,0 +1,73 @@
+public class Solution {
+    public bool IsPossible(int[] target) {
+        if (target.Length == 1) return target[0] == 1;
+        long total = 0, x, top, remaining;
+        MaxHeap heap = new MaxHeap(target.Length);
+        for (int i = 0; i < target.Length; i++){
+            total += target[i];
+            heap.Insert(target[i]);             
+        }
+        while (heap.GetMin() > 1){
+            top = heap.GetMin();
+            remaining = total - top;
+            if (remaining > top) return false;
+            x = top % remaining;                
+
+            if (remaining == 1) return true;    
+            if (x < 1) return false;            
+
+            total -= (top - x);                 
+            heap.UpdateTop((int)x);             
+        }
+        return true;
+    }
+}
+
+public class MaxHeap
+{
+    public int[] arr;
+    public int Count = 0;
+    public MaxHeap(int size) => arr = new int[size];    
+    public int LeftChild(int x) => 2 * x + 1;
+    public int RtChild(int x) => LeftChild(x) + 1;
+    public int Parent(int x) => (x - 1) / 2;
+    public int GetMin() => arr[0];
+    public void UpdateTop(int val){
+        arr[0] = val;
+        MaxHeapify();
+    }
+    public void Insert(int val){
+        int i = Count++;
+        arr[i] = val;
+        while (i != 0 && arr[Parent(i)] < arr[i]){
+            int parent = Parent(i);
+
+            int temp = arr[parent];
+            arr[parent] = arr[i];
+            arr[i] = temp;
+
+            i = parent;
+        }
+    }
+    public void MaxHeapify(int i = 0){
+        while (i < Count){
+            if (Count < 2) return;
+
+            int largest = i;
+            int left = LeftChild(i), rt = RtChild(i);
+
+            if (left < Count && arr[left] > arr[i])
+                largest = left;
+            if (rt < Count && arr[rt] > arr[largest])
+                largest = rt;
+            if (largest != i){
+                int temp = arr[largest];
+                arr[largest] = arr[i];
+                arr[i] = temp;
+
+                i = largest;
+            }
+            else break;
+        }
+    }
+}
