@@ -1,0 +1,14 @@
+public class Solution {
+    public int MaxScore(int[] cardPoints, int k) {
+        if(k>=cardPoints.Length) return cardPoints.Sum();
+        
+        int tot = cardPoints.Take(k).Sum();
+        int res = tot;
+        for(int i=1; i<=k; ++i){
+            tot -= cardPoints[k-i];
+            tot += cardPoints[cardPoints.Length-i];
+            res = Math.Max(res,tot);
+        }
+        return res; 
+    }
+}
