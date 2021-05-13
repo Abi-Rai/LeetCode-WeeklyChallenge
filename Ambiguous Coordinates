@@ -1,0 +1,26 @@
+public class Solution {
+    public IList<string> AmbiguousCoordinates(string s) {
+        List<string> res = new List<string>();
+        s = s.Substring(1, s.Length - 2);
+        for(int i = 1; i < s.Length; i++) {
+            foreach(string l in cord(s, 0, i - 1)) {
+                foreach(string r in cord(s, i, s.Length - 1)) {
+                    res.Add($"({l}, {r})");
+                }
+            }
+        }
+        return res;
+    }
+    private List<string> cord(string s, int l, int r) {
+        if(l == r) return new List<string> {s.Substring(l, r - l + 1)};
+        if(s[l] == '0' && s[r] == '0') return new List<string>();
+        if(s[l] == '0') return new List<string> {$"{s[l]}.{s.Substring(l + 1, r - l)}"};
+        if(s[r] == '0') return new List<string> {s.Substring(l, r - l + 1)};
+        List<string> res = new List<string>();
+        for(int i = l; i < r; i++) {
+            res.Add($"{s.Substring(l, i - l + 1)}.{s.Substring(i + 1, r - i)}");
+        }
+        res.Add(s.Substring(l, r - l + 1));
+        return res;
+    }
+}
