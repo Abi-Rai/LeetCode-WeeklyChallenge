@@ -1,0 +1,23 @@
+public class Solution {
+    public int LongestStrChain(string[] words) {
+        Dictionary<string,int> dp = new Dictionary<string,int>();
+        Array.Sort(words,(a,b)=>a.Length-b.Length);
+        int wordSeqLen = 1;
+        foreach(string word in words){
+            int currLen = 1;
+            for(int i=0;i<word.Length;++i){
+                StringBuilder sb = new StringBuilder(word);
+                sb.Remove(i,1);
+                string predecessor = sb.ToString();
+                int val;
+                int prevLen = dp.TryGetValue(predecessor,out val)?val:0;
+                currLen = Math.Max(currLen,prevLen+1);
+            }
+            if(!dp.ContainsKey(word)){
+                dp.Add(word,currLen);
+            }
+            wordSeqLen = Math.Max(wordSeqLen,currLen);
+        }
+        return wordSeqLen;
+    }
+}
