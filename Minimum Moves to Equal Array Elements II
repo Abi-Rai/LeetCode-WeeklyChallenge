@@ -1,0 +1,11 @@
+public class Solution {
+    public int MinMoves2(int[] nums) {
+        Array.Sort(nums);
+        int tar = nums[nums.Length/2];
+        int cnt=0;
+        foreach(int num in nums){
+            cnt+=Math.Abs(tar-num);
+        }
+        return cnt;
+    }
+}
