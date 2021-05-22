@@ -1,0 +1,48 @@
+public class Solution {
+    private int size;
+    private IList<IList<string>> solutions = new List<IList<string>>();
+    
+    public IList<IList<string>> SolveNQueens(int n) {
+        size = n;
+        char[][] emptyBoard= new char [size][];
+        for(int i=0;i<n;++i){
+            emptyBoard[i] = new char[size];
+            for(int j=0;j<n;++j){
+                emptyBoard[i][j]='.';
+            }
+        }
+        BackTrack(0,new HashSet<int>(),new HashSet<int>(), new HashSet<int>(), emptyBoard);
+        return solutions;
+    }
+    private List<string> CreateBoard(char[][] state){
+        List<string> board= new List<string>();
+        for(int row=0;row<size;++row){
+            string curr_row = new string(state[row]);
+            board.Add(curr_row);
+        }
+        return board;
+    }
+    private void BackTrack(int row, HashSet<int> diagonals, HashSet<int> antiDiagonals, HashSet<int> cols, char[][] state){
+        if(row==size){
+            solutions.Add(CreateBoard(state));
+            return;
+        }
+        for(int col=0;col<size;++col){
+            int currDiagonal = row-col;
+            int currAntiDiagonal = row+col;
+            if(cols.Contains(col)||diagonals.Contains(currDiagonal)||antiDiagonals.Contains(currAntiDiagonal)){
+                continue;
+            }
+            cols.Add(col);
+            diagonals.Add(currDiagonal);
+            antiDiagonals.Add(currAntiDiagonal);
+            state[row][col]='Q';
+            BackTrack(row+1,diagonals,antiDiagonals,cols,state);
+            
+            cols.Remove(col);
+            diagonals.Remove(currDiagonal);
+            antiDiagonals.Remove(currAntiDiagonal);
+            state[row][col]='.';
+        }
+    }
+}
