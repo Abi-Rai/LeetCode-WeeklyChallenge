@@ -1,0 +1,14 @@
+public class Solution {
+    public string ToLowerCase(string s) {
+        var sb = new StringBuilder();
+        foreach(char c in s){
+            int v= (int)c;
+            if(v<=90&&v>=65){
+                sb.Append((char)(v+32));
+                }else{
+                sb.Append(c);
+            }
+            }
+        return sb.ToString();
+    }
+}
