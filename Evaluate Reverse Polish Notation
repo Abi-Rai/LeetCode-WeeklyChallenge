@@ -1,0 +1,30 @@
+public class Solution {
+    public int EvalRPN(string[] tokens) {
+        Stack<int> st = new Stack<int>();
+        foreach(string s in tokens){
+            if(s=="+"||s=="-"||s=="*"||s=="/"){
+                int a= st.Pop();
+                int b= st.Pop();
+                int r= Calc(b,a,s);
+                st.Push(r);
+            }else{
+                st.Push(int.Parse(s));
+            }
+        }
+        return st.Pop();
+    }
+    int Calc(int a, int b, string c){
+        switch(c){
+            case "+":
+                return a+b;
+            case "-":
+                return a-b;
+            case "*":
+                return a*b;
+            case "/":
+                return a/b;
+            default:
+                return 0;
+        }
+    }
+}
