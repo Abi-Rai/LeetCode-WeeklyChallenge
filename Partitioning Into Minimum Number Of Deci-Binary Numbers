@@ -1,0 +1,11 @@
+public class Solution {
+    public int MinPartitions(string n) {
+        int ans = 0;
+        foreach (var ch in n)
+        {
+            int val = ch-'0';
+            if(ans<val)ans=val;
+        }
+        return ans;
+    }
+}
