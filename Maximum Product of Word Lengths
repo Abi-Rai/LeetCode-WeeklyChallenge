@@ -1,0 +1,23 @@
+public class Solution {
+    public int MaxProduct(string[] words) {
+       int N = words.Length;
+       int[] words_int = new int[N];
+       Array.Clear(words_int,0,N);
+
+       for( int i = 0; i < N; i++){
+           for( int j = 0; j < words[i].Length; j++){
+               words_int[i] |=  (1<<(words[i][j]-'a'));
+           }
+       }
+
+       int max = 0;
+       for( int i = 0; i < N; i++){
+           for( int j = i+1; j < N; j++){
+               if( (words_int[i] & words_int[j]) == 0){
+                   max = Math.Max(max,words[i].Length*words[j].Length);
+               }
+           }
+       }
+       return max;
+    }
+}
