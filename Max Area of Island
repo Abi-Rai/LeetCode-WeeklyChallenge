@@ -1,0 +1,30 @@
+public class Solution {
+    int[][] _grid;
+    bool[,] _seen;
+    int rLen;
+    int cLen;
+    public int MaxAreaOfIsland(int[][] grid) {
+        rLen = grid.Length;
+        cLen = grid[0].Length;
+        _grid = grid;
+        _seen = new bool[rLen,cLen];
+        int res = 0;
+        for(int r=0;r<rLen;++r){
+            for(int c=0;c<cLen;++c){
+                res = Math.Max(res,CalcArea(r,c));
+            }
+        }
+        return res;
+    }
+    
+    public int CalcArea(int r, int c){
+        if(r<0 || r>= rLen || c<0 || c>= cLen || _seen[r,c] || _grid[r][c]==0) return 0;
+        _seen[r,c]=true;
+        return (1 + 
+                CalcArea(r+1,c) + 
+                CalcArea(r-1,c) + 
+                CalcArea(r,c-1) + 
+                CalcArea(r,c+1)
+               );
+    }
+}
