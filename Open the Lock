@@ -1,0 +1,40 @@
+public class Solution {
+    public int OpenLock(string[] dead, string target) {
+        const string start = "0000";
+        HashSet<string> deadEnds = dead.ToHashSet();
+        if(deadEnds.Contains(target) || !deadEnds.Add(start) && start!=target) return -1;
+        Queue<string> que = new Queue<string>(new[] {start});
+        for(int step = 0; que.Count>0 ;++step){
+            for(int thisStep = que.Count; thisStep>0 ; --thisStep ){
+                string state = que.Dequeue();
+                if(state==target) return step;
+                foreach(string nextState in GetNextStates(state)){
+                    if(deadEnds.Add(nextState)) que.Enqueue(nextState);
+                }
+            }
+        }
+        return -1;
+    }
+    
+    private static IEnumerable<string> GetNextStates(string state){
+        for(int wheel = 0; wheel<4;++wheel){
+            yield return MoveUp(state,wheel);
+            yield return MoveDown(state,wheel);
+        }
+    }
+    
+    private static string MoveUp(string state, int wheel){
+        StringBuilder sb = new StringBuilder(state);
+        sb[wheel] = Increment(sb[wheel]);
+        return sb.ToString();
+    }
+    
+    private static string MoveDown(string state, int wheel){
+        StringBuilder sb = new StringBuilder(state);
+        sb[wheel] = Decrement(sb[wheel]);
+        return sb.ToString();
+    }
+    
+    private static char Increment(char value) => (char)((value - '0' +1)%10+'0');
+    private static char Decrement(char value) => (char)((value - '0' +9)%10+'0');
+}
