@@ -1,0 +1,36 @@
+public class Solution{
+    public int MaxPerformance(int n, int[] speed, int[] efficiency, int k){
+        int counter = 0, mod = (int)(1e9)+7;
+        List<Person> list = new List<Person>();
+        for (int i=0; i<speed.Length; i++){
+            list.Add(new Person(speed[i], efficiency[i]));
+        }
+        list.Sort((x,y) => y.e-x.e);
+        SortedSet<int> pq = new SortedSet<int>(Comparer<int>.Create((x,y) => {
+                int xSpeed = list[x].s, ySpeed = list[y].s;
+                return xSpeed != ySpeed ? xSpeed - ySpeed : y-x;
+            }
+        ));
+        long maxPerformance=0, currSpeed=0;
+        for (int i=0; i<list.Count; i++){
+            if (pq.Count == k){
+                currSpeed -= list[pq.Min].s;
+                pq.Remove(pq.Min);
+            }
+            pq.Add(i);
+            Person person = list[i];
+            currSpeed += person.s;
+            long currPerformance = (currSpeed * person.e);
+            maxPerformance = Math.Max(maxPerformance, currPerformance);
+        }
+        return (int)(maxPerformance%mod);
+    }
+    public class Person{
+        public int s;
+        public int e;
+        public Person(int s, int e){
+            this.s = s;
+            this.e = e;
+        }
+    }
+}
