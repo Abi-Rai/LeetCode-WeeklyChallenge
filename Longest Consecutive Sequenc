@@ -1,0 +1,18 @@
+public class Solution {
+    public int LongestConsecutive(int[] nums) {
+        HashSet<int> hs = nums.ToHashSet();
+        int cnt = 0;
+        foreach(int num in hs){
+            if(!hs.Contains(num-1)){
+                int curr = num;
+                int currCnt = 1;
+                while(hs.Contains(curr+1)){
+                    ++curr;
+                    ++currCnt;
+                }
+                cnt = Math.Max(cnt,currCnt);
+            }
+        }
+        return cnt;
+    }
+}
