@@ -1,0 +1,30 @@
+public class Solution {
+    public int MinRefuelStops(int target, int startFuel, int[][] stations){ 
+        int stops = 0;   
+        int fuel = startFuel;
+        while (fuel < target){
+            int best = SelectBest(stations, fuel);
+            if (best == -1)
+                return -1;
+            fuel += stations[best][1];
+            stations[best][1] = 0;
+            ++stops;            
+        }        
+        return stops;        
+    }
+    
+    public int SelectBest(int[][] stations, int limit){
+        int currentMax = 0;
+        int best = -1;
+        for (int i=0; i<stations.Length; i++){
+            if (stations[i][0]>limit){
+                break;
+            }
+            if (stations[i][1] > currentMax){
+                currentMax = stations[i][1];
+                best = i;
+            }
+        }
+        return best;
+    }    
+}
