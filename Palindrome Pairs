@@ -1,0 +1,42 @@
+public class Solution {
+    public IList<IList<int>> PalindromePairs(string[] words) {
+        IList<IList<int>> list = new List<IList<int>>();
+        Dictionary<string, int> dict = new Dictionary<string, int>();
+        
+        for(int i = 0; i < words.Length; i++){
+            StringBuilder sb = new StringBuilder();
+            for(int j = words[i].Length - 1; j >= 0; j--){
+                sb.Append(words[i][j]);
+            }
+            dict.Add(sb.ToString(), i);
+        }
+        
+        for(int i = 0; i < words.Length; i++){
+            string str = words[i];
+            for(int j = 0; j < str.Length; j++){
+                string sub1 = str.Substring(j);
+                string sub2 = str.Substring(0, j);
+                if(IsPalin(sub1) && dict.ContainsKey(sub2) && dict[sub2] != i){
+                    list.Add(new List<int>{i, dict[sub2]});
+                    if(sub2 == ""){
+                        list.Add(new List<int>{dict[sub2], i});
+                    }
+                }
+                if(IsPalin(sub2) && dict.ContainsKey(sub1) && dict[sub1] != i){
+                    list.Add(new List<int>{dict[sub1], i});
+                }
+                
+            }
+        }
+        return list;
+    }
+    
+    private bool IsPalin(string str){
+        for(int i = 0; i < str.Length / 2; ++i){
+            if(str[i] != str[str.Length - 1 - i]){
+                return false;
+            }
+        }
+        return true;
+    }
+}
