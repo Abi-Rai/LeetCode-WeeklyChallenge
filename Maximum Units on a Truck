@@ -1,0 +1,18 @@
+public class Solution {
+    public int MaximumUnits(int[][] boxTypes, int truckSize) {
+	int size = 0;
+	int units = 0;
+
+	foreach (int[] boxType in boxTypes.OrderByDescending(bt => bt[1])) {
+		if (size + boxType[0] < truckSize) {
+			units += boxType[0] * boxType[1];
+			size += boxType[0];
+		} else {
+			units += (truckSize - size) * boxType[1];
+			break;
+		}
+	}
+
+	return units;
+    }
+}
