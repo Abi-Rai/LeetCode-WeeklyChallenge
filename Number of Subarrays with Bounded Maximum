@@ -1,0 +1,14 @@
+public class Solution {
+    public int NumSubarrayBoundedMax(int[] nums, int left, int right) {
+        int WS=0,res=0,curr=0;
+        for(int WE=0;WE<nums.Length;++WE){
+            if(nums[WE]>=left&&nums[WE]<=right) curr=WE-WS+1;
+            else if(nums[WE]>right){
+                curr=0;
+                WS=WE+1;
+            }
+            res+=curr;
+        }
+        return res;
+    }
+}
