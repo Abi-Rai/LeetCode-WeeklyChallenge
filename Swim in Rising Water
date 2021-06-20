@@ -1,0 +1,44 @@
+public class Solution {
+    public int SwimInWater(int[][] grid){
+        if (grid == null || grid.Length == 0)return 0;
+        int[][] directions = new int[][]{
+            new int[] { 0, 1},
+            new int[] { 0, -1 },
+            new int[] { 1, 0 },
+            new int[] { -1, 0 }
+        };
+        int N = grid.Length * grid.Length;
+        int low = grid[0][0], high = N;
+        while (low < high){
+            int mid = low + (high - low) / 2;
+            if (SwimInWaterDFS(grid, 0, 0, mid, new bool[grid.Length, grid[0].Length], directions)){
+                high = mid;
+            }
+            else{
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+
+    private bool SwimInWaterDFS(int[][] grid, int row, int col, int waterLevel, bool[,] visited, int[][] directions){
+        if (row < 0 ||
+            col < 0 ||
+            row >= grid.Length ||
+            col >= grid[row].Length ||
+            grid[row][col] > waterLevel ||
+            visited[row, col] == true){
+            return false;
+        }
+        if (row == grid.Length - 1 && col == grid[row].Length - 1) return true;
+        visited[row, col] = true;
+        foreach (int[] dir in directions){
+            int x = dir[0] + row;
+            int y = dir[1] + col;
+            if (SwimInWaterDFS(grid, x, y, waterLevel, visited, directions)){
+                return true;
+            }
+        }
+        return false;
+    }
+}
