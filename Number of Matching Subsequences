@@ -1,0 +1,22 @@
+public class Solution{
+    public int NumMatchingSubseq(string S, string[] words){
+        Dictionary<string,int> wordCount = new Dictionary<string, int>();      
+        foreach(string word in words){
+            if (!wordCount.ContainsKey(word))
+                wordCount[word] =0;
+            wordCount[word]++;
+        }
+        int res=0;
+        foreach(string word in wordCount.Keys){
+            if (IsSubSequence(S, word)) res += wordCount[word];
+        }
+        return res;
+    }
+    
+    private bool IsSubSequence(string fst, string sec,int i=0,int j=0){
+        while(i < fst.Length && j < sec.Length){
+            if(fst[i++] == sec[j]) j++;
+        }
+        return j == sec.Length;
+     }
+}
