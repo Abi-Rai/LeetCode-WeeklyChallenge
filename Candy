@@ -1,0 +1,19 @@
+public class Solution {
+    public int Candy(int[] ratings) {
+        int[] cand=new int[ratings.Length];
+        Array.Fill(cand,1);
+        for(int i=1;i<ratings.Length;++i){
+            if(ratings[i]>ratings[i-1]){
+                cand[i]=cand[i-1]+1;
+            }
+        }
+        int sum=cand[cand.Length-1];
+        for(int i=ratings.Length-2;i>=0;--i){
+            if(ratings[i]>ratings[i+1]){
+                cand[i]=Math.Max(cand[i],cand[i+1]+1);
+            }
+            sum+=cand[i];
+        }
+        return sum;
+    }
+}
