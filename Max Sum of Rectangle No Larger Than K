@@ -1,0 +1,26 @@
+public class Solution {
+    
+    public int MaxSumSubmatrix(int[][] matrix, int k){
+        int max = int.MinValue;
+        int rows = matrix.Length;
+        int cols = matrix[0].Length;
+        int[] sums = new int[rows];
+        for (int l = 0; l < cols; l++){
+            Array.Clear(sums, 0, rows);            
+            for (int r = l; r < cols; r++){
+                for (int row = 0; row < rows; row++)
+                    sums[row] += matrix[row][r];                    
+                
+                for (int i = 0; i < rows; i++){
+                    int sum = 0;                             
+                    for (int j = i; j < rows; j++){
+                        sum += sums[j];
+                        if (sum > max && sum <= k)
+                            max = sum;
+                    }                    
+                }
+            }
+        }
+        return max;
+    }
+}
