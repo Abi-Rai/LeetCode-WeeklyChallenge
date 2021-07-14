@@ -1,0 +1,17 @@
+public class Solution {
+       public string CustomSortString(string order, string str) {
+        char[] res = str.ToCharArray();
+        Array.Sort(res,new MySorter(order));
+        return new string(res);
+    }
+    public class MySorter:IComparer{
+        private string ord;
+        public MySorter(string order){
+            ord = order;
+        }
+        public int Compare(object x, object y){
+            if(ord.IndexOf((char)x)<ord.IndexOf((char)y)) return -1;
+            return ord.IndexOf((char)x)>ord.IndexOf((char)y)?1:0;
+        }
+    }
+}
