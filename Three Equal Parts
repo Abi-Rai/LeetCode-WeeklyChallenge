@@ -1,0 +1,42 @@
+public class Solution {
+    public int[] ThreeEqualParts(int[] digits){
+            int[] notFound = new int[] { -1, -1 };
+
+            if (digits == null) return notFound;
+
+            int countof1 = 0;
+            int length = digits.Length;
+            Dictionary<int,int> map = new Dictionary<int, int>();
+            for (int i = 0; i < length; i++){
+                if (digits[i] == 1){
+                    map.Add(countof1, i);
+                    countof1++;
+                }
+            }
+
+            if (countof1 % 3 != 0) return notFound;
+
+            if (countof1 == 0) return new int[] { 0, 2 };
+
+            int number1 = countof1 / 3;
+            int thirdNumberStart = map[countof1 - number1];
+            int minimumLength = length - thirdNumberStart;     
+            int index1 = map[0];
+            int index2 = map[number1];
+            int index3 = map[countof1 - number1];
+
+            if (length - index1 + 1 < 3 * minimumLength) return notFound;
+
+            string digitsString = string.Join(string.Empty, digits);
+
+            string number = digitsString.Substring(thirdNumberStart);
+            string firstNumber = digitsString.Substring(index1, minimumLength);
+            string secondNumber = digitsString.Substring(index2, minimumLength);
+
+            bool result = number.CompareTo(firstNumber) == 0 && number.CompareTo(secondNumber) == 0;
+            if (!result){
+                return notFound;
+            }
+            return new int[] { index1 + minimumLength - 1, index2 + minimumLength };
+    }
+}
