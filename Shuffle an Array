@@ -1,0 +1,37 @@
+public class Solution {
+    int[] _orig;
+    int[] _nums;
+    int _len;
+    Random random = new Random();
+    
+    public Solution(int[] nums) {
+        _orig = (int[])nums.Clone();
+        _nums = nums;
+        _len = nums.Length;
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    public int[] Reset() {
+        _nums = _orig;
+        _orig = (int[])_orig.Clone();
+        return _orig;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    public int[] Shuffle() {
+        for(int i=0;i<_len;++i){
+            int randomIdx = random.Next(i,_len);
+            int temp=_nums[i];
+            _nums[i]=_nums[randomIdx];
+            _nums[randomIdx] = temp;
+        }
+        return _nums;
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(nums);
+ * int[] param_1 = obj.Reset();
+ * int[] param_2 = obj.Shuffle();
+ */
