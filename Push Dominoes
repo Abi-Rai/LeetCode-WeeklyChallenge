@@ -1,0 +1,28 @@
+public class Solution{
+    public string PushDominoes(string dominoes){
+        char[] d = ('L' + dominoes + 'R').ToCharArray();
+        Stack<int> stack = new Stack<int>();
+        for(int i = 0; i < d.Length; i++){
+            if(d[i] == 'L' || d[i] == 'R') stack.Push(i);
+        }
+        while(stack.Count != 0){
+            int second = stack.Pop(),  first = stack.Pop(), frst = first;
+            if(d[first] == d[second]){
+                while(first <= second){
+                    d[first++] = d[second--] = d[frst];
+                }
+            }
+            else if(d[first] == 'R' && d[second] == 'L'){
+                while(first < second){
+                    d[first++] = 'R';
+                    d[second--] = 'L';
+                }
+            }
+            if(frst != 0){
+                stack.Push(frst);
+            }
+        }
+        string str = new string(d);
+        return str.Substring(1, dominoes.Length);
+    }
+}
