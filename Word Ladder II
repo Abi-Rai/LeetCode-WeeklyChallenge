@@ -1,0 +1,69 @@
+public class Solution {
+    public IList<IList<string>> FindLadders(string beginWord, string endWord, IList<string> wordList){
+    IList<IList<string>> result = new List<IList<string>>();
+            
+            Queue<Tuple<string, int>> q = new Queue<Tuple<string, int>>();
+            q.Enqueue(new Tuple<string, int>(beginWord, 1));
+
+            Dictionary<string, List<Tuple<string, int>>> map = new Dictionary<string, List<Tuple<string, int>>>();
+        
+            map.Add(beginWord, new List<Tuple<string, int>>());
+
+            HashSet<string> words = new HashSet<string>();
+            
+            foreach (string temp in wordList){
+                words.Add(temp);
+            }
+
+            int distance = int.MaxValue;
+
+            while (q.Count > 0){
+                Tuple<string,int> temp = q.Dequeue();
+
+                foreach (string neighbor in GetNeighbors(temp.Item1, words)){
+                    if (map.ContainsKey(neighbor)){
+                        if (map[neighbor].Count > 0 && temp.Item2 <= map[neighbor][0].Item2){
+                            map[neighbor].Add(temp);
+                        }
+                    }
+                    else{
+                        map.Add(neighbor, new List<Tuple<string, int>>() { temp });
+                        q.Enqueue(new Tuple<string, int>(neighbor, temp.Item2 + 1));
+
+                    }
+                }
+            }
+
+            Stack<string> inter = new Stack<string>();
+            GetAllPaths(map, endWord, beginWord, inter, result);
+            return result;
+    }
+    
+    private void GetAllPaths(Dictionary<string, List<Tuple<string, int>>> map, string source, string destination, Stack<string> inter, IList<IList<string>> result){
+              inter.Push(source);
+            
+            if (source.Equals(destination)){
+                result.Add(new List<string>(inter.ToList()));
+            }
+        
+        
+              if(map.ContainsKey(source)){
+                foreach(var temp in map[source]){
+                    GetAllPaths(map, temp.Item1, destination, inter, result);
+                    
+                }
+              }
+           inter.Pop();
+        }
+  
+    public List<string> GetNeighbors(string word, HashSet<string> wordList){
+            List<string> result = new List<string>();
+            for (int j = 0; j < word.Length; ++j){
+                for (int i = 0; i < 26; ++i){
+                    string temp = word.Substring(0, j) + (char)('a' + i) + word.Substring(j + 1);
+                    if (!temp.Equals(word) && wordList.Contains(temp)) result.Add(temp);
+                }
+            }
+            return result;
+        }
+}
