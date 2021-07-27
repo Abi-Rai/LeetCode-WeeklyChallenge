@@ -1,0 +1,18 @@
+public class Solution {
+    public int ThreeSumClosest(int[] nums, int target) {
+        int diff = int.MaxValue;
+        int last = nums.Length;
+        Array.Sort(nums);
+        for(int i=0 ;i < last && diff!=0;++i){
+            for(int j= i+1 ;j < last-1;++j){
+                int complement=target - nums[i] - nums[j];
+                int idx = Array.BinarySearch(nums, j+1, last-j-1, complement);
+                int hi = idx>=0 ? idx : ~idx;
+                int lo = hi-1;
+                if(hi < last && Math.Abs(complement-nums[hi]) < Math.Abs(diff)) diff = complement - nums[hi];
+                if(lo > j && Math.Abs(complement-nums[lo]) < Math.Abs(diff)) diff = complement - nums[lo];
+            }
+        }
+        return target-diff;
+    }
+}
