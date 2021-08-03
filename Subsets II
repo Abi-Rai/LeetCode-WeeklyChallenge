@@ -1,0 +1,21 @@
+public class Solution{
+    public IList<IList<int>> SubsetsWithDup(int[] nums){
+        IList<IList<int>> sets = new List<IList<int>>();
+        Array.Sort(nums);
+        BuildSubSets(nums, sets, 0, new List<int>());
+        return sets;
+    }
+
+    public void BuildSubSets(int[] nums, IList<IList<int>> sets, int index, List<int> currentSet){
+        sets.Add(currentSet);
+        for (int i = index; i < nums.Length; i++){
+            List<int> nextSet = new List<int>(currentSet);
+            nextSet.Add(nums[i]);
+            BuildSubSets(nums, sets, i + 1, nextSet);
+
+            while (i < nums.Length - 1 && nums[i] == nums[i+1]){
+                i++;
+            }
+        }
+    }
+}
