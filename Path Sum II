@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public IList<IList<int>> PathSum(TreeNode root, int sum) {
+        IList<IList<int>> result = new List<IList<int>>();
+        DFS(root, sum, new List<int>(), result);
+        return result;
+    }
+
+    private void DFS(TreeNode root, int sum, IList<int> oneResult, IList<IList<int>> result) {
+        if (root == null) return;
+        oneResult.Add(root.val);
+        if (root.left == null && root.right == null) {
+            if (sum == root.val) {
+                result.Add(new List<int>(oneResult));
+            }
+        } else {
+            DFS(root.left, sum - root.val, oneResult, result);
+            DFS(root.right, sum - root.val, oneResult, result);
+        }
+        oneResult.RemoveAt(oneResult.Count - 1);
+    }
+}
