@@ -1,0 +1,14 @@
+public class Solution {
+    public int MinFlipsMonoIncr(string s) {
+        int ones=0,flip=0;
+        foreach(char c in s){
+            if(c=='1'){
+                ones++;
+            }else{
+                flip++;
+            }
+            flip= Math.Min(ones,flip);
+        }
+        return flip;
+    }
+}
