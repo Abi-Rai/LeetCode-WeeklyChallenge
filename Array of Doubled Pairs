@@ -1,0 +1,23 @@
+public class Solution{
+    public bool CanReorderDoubled(int[] arr){
+        IDictionary<int, int> dict = new Dictionary<int, int>();
+        Array.Sort(arr, (n1, n2) => Math.Abs(n1).CompareTo(Math.Abs(n2)));
+        
+        foreach (int num in arr){
+            if (!dict.ContainsKey(num)) dict[num] = 0; 
+            dict[num]++;
+        }
+        
+        for (int i = 0; i < arr.Length; i++){
+            int curr = arr[i];
+            int doubled = curr * 2;
+            if (!dict.ContainsKey(curr)) continue;
+            dict[curr]--;
+            if (dict[curr] == 0) dict.Remove(curr);
+            if (!dict.ContainsKey(doubled)) return false;
+            dict[doubled]--;
+            if (dict[doubled] == 0) dict.Remove(doubled);
+        }
+        return true;
+    }
+}
