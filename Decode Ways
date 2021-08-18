@@ -1,0 +1,22 @@
+public class Solution {
+    public int NumDecodings(string s) {
+        int[] dp = new int[s.Length];
+        for(int i=s.Length-1;i>=0;--i){
+            if(s[i]=='0'){
+                dp[i]=0;
+                continue;
+            }
+            Helper(ref s,dp,i,(s[i]-'0'));
+        }
+        return dp[0];
+    }
+    private void Helper(ref string s, int[] dp, int i, int currDigit){
+        dp[i]+=(i==s.Length-1?1:dp[i+1]);
+        if(i!=s.Length-1){
+            int candidate = currDigit *10 + s[i+1]-'0';
+            if(candidate >=1 && candidate <= 26){
+                dp[i]+=(i!=s.Length-2?dp[i+2]:1);
+            }
+        }
+    }
+}
