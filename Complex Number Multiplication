@@ -1,0 +1,43 @@
+public class Solution{
+    public struct ComplexNumber{
+        public int A { get; set; }
+        public int B { get; set; }
+        
+        public ComplexNumber(string input){
+            string[] equation = input.Split('+');
+            A = int.Parse(equation[0]);
+            B = int.Parse(equation[1].Substring(0, equation[1].Length - 1));
+        }
+        
+        public ComplexNumber(int a, int b){
+            A = a;
+            B = b;
+        }
+        
+        public static ComplexNumber operator *(ComplexNumber c1, ComplexNumber c2){
+            int aa = c1.A * c2.A;
+            int ab = c1.A * c2.B; // i
+            int ba = c1.B * c2.A; // i
+            int bb = c1.B * c2.B; // i^2 = -1
+
+            int a = aa + (bb * -1);
+            int b = ab + ba;
+
+            return new ComplexNumber(a, b);
+        }
+        
+        public override string ToString(){
+            return $"{A}+{B}i";
+        }
+    }
+    
+    
+    public string ComplexNumberMultiply(string a, string b){
+        ComplexNumber c1 = new ComplexNumber(a);
+        ComplexNumber c2 = new ComplexNumber(b);
+        
+        ComplexNumber mult = c1 * c2;
+        
+        return mult.ToString();
+    }
+}
