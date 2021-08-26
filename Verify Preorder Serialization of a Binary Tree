@@ -1,0 +1,12 @@
+public class Solution {
+    public bool IsValidSerialization(string preorder) {
+        string[] nodes = preorder.Split(',');
+        int spotsAvailable = 1;
+        foreach(string node in nodes){
+            if(spotsAvailable==0) return false;
+            spotsAvailable--;
+            if(node!="#") spotsAvailable +=2;
+        }
+        return spotsAvailable == 0;
+    }
+}
