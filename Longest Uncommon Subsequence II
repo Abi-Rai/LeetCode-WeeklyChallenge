@@ -1,0 +1,19 @@
+public class Solution{
+    public int FindLUSlength(string[] strs){
+        Array.Sort(strs, (a, b) => b.Length.CompareTo(a.Length));
+        for(int i=0,j;i<strs.Length;++i){
+            for(j=0;j<strs.Length;++j){
+                if(i == j) continue;
+                if(IsSubSequence(strs[i], strs[j])) break;
+            }
+            if(j == strs.Length) return strs[i].Length;
+        }
+        return -1;
+    }
+    private bool IsSubSequence(string x, string y){
+        int j = 0;
+        for(int i=0;i<y.Length&&j<x.Length;++i)
+            if(y[i] == x[j]) j++;
+        return j == x.Length;
+    }
+}
