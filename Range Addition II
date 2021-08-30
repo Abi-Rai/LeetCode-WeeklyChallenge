@@ -1,0 +1,11 @@
+public class Solution {
+    public int MaxCount(int m, int n, int[][] ops) {
+        int mMax = int.MaxValue, nMax = int.MaxValue;
+        if(ops.Length==0) return m*n;
+        foreach(int[] op in ops){
+            mMax = Math.Min(mMax,op[0]);
+            nMax = Math.Min(nMax,op[1]);
+        }
+        return mMax*nMax;
+    }
+}
