@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public IList<TreeNode> GenerateTrees(int n) {
+        if(n==0) return new List<TreeNode>();
+        return DFS(1,n);
+    }
+    private IList<TreeNode> DFS(int start, int end){
+        if(start>end) return new List<TreeNode>(){null};
+        IList<TreeNode> res = new List<TreeNode>();
+        for(int i=start;i<=end;++i){
+            IList<TreeNode> leftList = DFS(start,i-1);
+            IList<TreeNode> rightList = DFS(i+1,end);
+            foreach(TreeNode left in leftList){
+                foreach(TreeNode right in rightList){
+                    TreeNode root = new TreeNode(i);
+                    root.left=left;
+                    root.right=right;
+                    res.Add(root);
+                }
+            }
+        }
+        return res;
+    }
+}
