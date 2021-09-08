@@ -1,0 +1,19 @@
+public class Solution {
+    public char SlowestKey(int[] releaseTimes, string keysPressed) {
+        if(releaseTimes.Length==1) return keysPressed[0];
+        
+        int[] duration = new int[releaseTimes.Length];
+        int max = releaseTimes[0];
+        int idx=0;
+        for(int i=1;i<duration.Length;++i){
+            int diff = releaseTimes[i] - releaseTimes[i-1];
+            if(diff==max){
+                idx= keysPressed[idx]-'0'>keysPressed[i]-'0'?idx:i;
+            }else if(diff>max){
+                max = diff;
+                idx=i;
+            }
+        }
+        return keysPressed[idx];
+    }
+}
