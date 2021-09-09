@@ -1,0 +1,39 @@
+public class Solution {
+   public int OrderOfLargestPlusSign(int n, int[][] mines) {
+        if (mines == null || mines.Length == 0) return n / 2;
+
+        bool[,] matrix = new bool[n, n];
+        foreach (int[] mine in mines){
+            matrix[mine[0], mine[1]] = true;
+        }
+
+        int[,] updown = new int[n, n];
+        int[,] leftright = new int[n, n];
+
+        for (int i=0; i<n; ++i){
+            for (int j=0; j<n; ++j){
+                if (!matrix[i,j]){
+                    updown[i, j] = i == 0 ? 1 : updown[i - 1, j] + 1;
+                    leftright[i, j] = j == 0 ? 1 : leftright[i, j - 1] + 1;
+                }
+            }
+        }
+
+        for (int i=n-1; i>=0; --i){
+            for (int j=n-1; j>=0; --j){
+                if (!matrix[i,j]){
+                    updown[i, j] = i == n - 1 ? 1 : Math.Min(updown[i, j], updown[i + 1, j] + 1);
+                    leftright[i, j] = j == n - 1 ? 1 : Math.Min(leftright[i, j], leftright[i, j + 1] + 1);
+                }
+            }
+        }
+
+        int result = 0;
+        for (int i = 0; i < n; ++i){
+            for (int j = 0; j < n; ++j){
+                result = Math.Max(result, Math.Min(updown[i, j], leftright[i, j]));
+            }
+        }
+        return result;
+    }
+}
