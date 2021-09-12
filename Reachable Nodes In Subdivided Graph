@@ -1,0 +1,41 @@
+public class Solution {
+    public int ReachableNodes(int[][] edges, int maxMoves, int n){
+        Dictionary<int,List<int[]>> dict = new Dictionary<int, List<int[]>>();
+        for(int i = 0; i < n; ++i){
+            dict[i] = new List<int[]>();
+        }
+        foreach(int[] edge in edges){
+            int u = edge[0], v = edge[1], w = edge[2];
+            dict[u].Add(new int[] { v, w });
+            dict[v].Add(new int[] { u, w });
+        }
+        
+        Queue<(int node,int move)> queue = new Queue<(int node, int move)>();
+        Dictionary<int,int> movesLeft = new Dictionary<int, int>();
+        queue.Enqueue((0, maxMoves));
+        movesLeft[0] = maxMoves;
+        
+        while (queue.Count > 0){
+            (int node, int move) curr = queue.Dequeue();
+            int currNode = curr.node;
+            int currMove = curr.move;
+            foreach(int[] next in dict[currNode]){
+                int nextNode = next[0];
+                int nextMove = currMove - next[1] - 1;
+                if (nextMove < 0 || (movesLeft.ContainsKey(nextNode) && movesLeft[nextNode] > nextMove)) continue;
+                movesLeft[nextNode] = nextMove;
+                queue.Enqueue((nextNode, nextMove));
+            }
+        }
+        
+        int res = movesLeft.Count;
+        foreach(int[] edge in edges){
+            int u = edge[0], v = edge[1], w = edge[2];
+            int a = movesLeft.TryGetValue(u,out int valA)? valA:0;
+            int b = movesLeft.TryGetValue(v,out int valB)? valB:0;
+            res += Math.Min(w, a + b);
+        }
+        
+        return res;
+    }
+}
