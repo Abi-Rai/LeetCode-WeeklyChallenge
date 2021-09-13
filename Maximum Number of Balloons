@@ -1,0 +1,21 @@
+public class Solution {
+    public int MaxNumberOfBalloons(string text) {
+        int n = text.Length;
+        string M = "balloon";
+        int res = int.MaxValue;
+        int[] freqText = new int[26];
+        int[] freqBal = new int[26];
+        for(int i = 0 ; i < n; ++i){
+            freqText[text[i]-'a']++;
+        }
+        for(int i = 0 ; i < M.Length; ++i){
+            freqBal[M[i]-'a']++;
+        }
+        for(int i = 0; i < 26; ++i){
+            if(freqBal[i]>0){
+                res = Math.Min(res,freqText[i]/freqBal[i]);
+            }
+        }
+        return res;
+    }
+}
