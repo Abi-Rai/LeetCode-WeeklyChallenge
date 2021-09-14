@@ -1,0 +1,17 @@
+public class Solution {
+    public string ReverseOnlyLetters(string s) {
+        StringBuilder sb = new StringBuilder();
+        int j = s.Length-1;
+        for(int i=0;i<s.Length;++i){
+            if(char.IsLetter(s[i])){
+                while(!char.IsLetter(s[j])){
+                    j--;
+                }
+                sb.Append(s[j--]);
+            }else{
+                sb.Append(s[i]);
+            }
+        }
+        return sb.ToString();
+    }
+}
