@@ -1,0 +1,17 @@
+public class Solution {
+    public int MaxTurbulenceSize(int[] arr) {
+        int N = arr.Length;
+        int res=1;
+        int anchor=0;
+        for(int i=1;i<N;++i){
+            int c = arr[i-1].CompareTo(arr[i]);
+            if(c==0){
+                anchor=i;
+            }else if(i==N-1||c*arr[i].CompareTo(arr[i+1])!=-1){
+                res=Math.Max(res,i-anchor+1);
+                anchor=i;
+            }
+        }
+        return res;
+    }
+}
