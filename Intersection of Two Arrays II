@@ -1,0 +1,21 @@
+public class Solution {
+    public int[] Intersect(int[] nums1, int[] nums2) {
+            Dictionary<int, int> pairs = new Dictionary<int, int>(Math.Max(nums1.Length, nums2.Length));
+            List<int> result = new List<int>();
+            int i = 0;
+
+            foreach (int num in nums1){
+                if (pairs.ContainsKey(num)) pairs[num]++;
+                else pairs[num] = 1;
+            }
+
+            foreach (int num in nums2){
+                if (pairs.ContainsKey(num) && pairs[num] > 0){
+                    result.Add(num);                    
+                    pairs[num]--;
+                }
+            }
+            
+            return result.ToArray();
+    }
+}
