@@ -1,0 +1,43 @@
+public class Solution {
+    public IList<string> AddOperators(string num, int target) 
+    {
+        List<string> result = new List<string>();
+        Helper(result, new StringBuilder(), num, target, 0, 0, 0);
+        return result;
+    }
+    
+    private void Helper(List<string> result, StringBuilder sb, string num, int target, int pos, long val, long carry)
+    {
+        if(pos == num.Length)
+        {
+            if(val == target)
+                result.Add(sb.ToString());
+            return;
+        }
+        
+        for( int i = 1; i+pos <=num.Length; i++)
+        {
+            if(num[pos] == '0' && i!=1) break;
+            long n = long.Parse(num.Substring(pos, i));
+            int sbLength = sb.Length;
+            if(sbLength == 0)
+            {
+                sb.Append(n);
+                Helper(result, sb, num, target, pos+i, n, n);
+                sb.Length = sbLength;
+            }
+            else
+            {
+                sb.Append("+"+n);
+                Helper(result, sb, num, target, pos+i, val+n, n);
+                sb.Length = sbLength;
+                sb.Append("-"+n);
+                Helper(result, sb, num, target, pos+i, val-n, -n);
+                sb.Length = sbLength;
+                sb.Append("*"+n);
+                Helper(result, sb, num, target, pos+i, val-carry + carry*n, carry*n);
+                sb.Length = sbLength;
+            }
+        }
+    }
+}
