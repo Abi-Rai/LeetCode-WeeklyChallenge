@@ -1,0 +1,18 @@
+public class Solution {
+    public int NumUniqueEmails(string[] emails) {
+        if(emails.Length<=1) return emails.Length;
+        HashSet<string> hs = new HashSet<string>();
+        int res = 0;
+        foreach(string email in emails){
+            string[] splt = email.Split('@');
+            string loc=splt[0];
+            loc = loc.Replace(".","");
+            if(loc.Contains('+')){
+                int idx = loc.IndexOf('+');
+                loc=loc.Substring(0,idx);
+            }
+            hs.Add(loc+"@"+splt[1]);
+        }
+        return hs.Count;
+    }
+}
