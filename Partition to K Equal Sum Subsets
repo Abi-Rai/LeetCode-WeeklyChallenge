@@ -1,0 +1,29 @@
+public class Solution {
+    public bool CanPartitionKSubsets(int[] nums, int k) {
+        int sum = 0;
+        foreach(int num in nums){
+            sum += num;
+        }
+        if(sum % k != 0) return false;
+        bool[] visited = new bool[nums.Length];
+        return dfs(nums, 0, 0, sum/k, visited, k);
+    }
+    
+    private bool dfs(int[] nums, int start, int currSum, int targetSum, bool[] visited, int k)
+    {
+        if(k == 1) return true;
+        if(currSum > targetSum) return false;
+        if(currSum == targetSum) return dfs(nums, 0, 0, targetSum, visited, k - 1);
+                
+        for(int i = start; i < nums.Length; ++i)
+        {
+            if(!visited[i])
+            {
+                visited[i] = true;   
+                if(dfs(nums, i + 1, currSum + nums[i], targetSum, visited, k)) return true;
+                visited[i] = false;
+            }
+        }
+        return false;           
+    }
+}
